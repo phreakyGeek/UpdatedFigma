@@ -10,7 +10,7 @@ export const LoginScreen = {
       const formProps = Object.fromEntries(formData);
       console.log('formdata',formData)
       console.log('formProps',formProps)
-      location.replace('/main')
+      location.replace('/#/main')
     })
   },
   render: () => {
