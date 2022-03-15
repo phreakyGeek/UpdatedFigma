@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-framework="javascript">
+<head>
+<title>Page Title</title>
+<style>
+.item1 { grid-area: header; }
+.item2 { grid-area: menu; }
+.item3 { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main right right'
+    'menu footer footer footer footer footer';
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+  height: 100%;
+}
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+table {
+  background-color: rgba(30, 126, 216, 0.8);
+  border: 1px solid rgb(23, 80, 202);
+  padding: 2px;
+}
+th, td{
+  background-color: rgba(255, 255, 255, 0.733);
+}
+.button{
+  background-color: #2196F3;
+  color:aliceblue;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 200;
+  border:0px;
+  width: 100%;
+  border-radius: 10px;
+}
+.button:hover{
+  background-color: #b1c1ce;
+  box-shadow: 0 2px #999;
+}
+.button:active{
+  background-color: #414447;
+}
+
+    </style>
+<script>
+  let master_data= {};
+  function onloading() {
+  window.pywebview.api.loadme("test");
+};
+function failed()
+{
+  document.getElementById('fail').style.display = 'block';
+  document.getElementById('pass').style.display = 'none';
+  document.getElementById('nohar').style.display = 'none';
+}
+function passed()
+{
+  document.getElementById('fail').style.display = 'none';
+  document.getElementById('pass').style.display = 'block';
+  document.getElementById('nohar').style.display = 'none';
+}
+function noharness()
+{
+  document.getElementById('fail').style.display = 'none';
+  document.getElementById('pass').style.display = 'none';
+  document.getElementById('nohar').style.display = 'block';
+}
+setTimeout(onloading, 2000);
+document.onload = onloading;
+
+</script>
+</head>
+<body>
+
+<div class="grid-container">
+  
+  <div class="item1"><h1>WHTS Automation</h1></div>
+  <div class="item2"><button onclick="location.replace('login.html')" class="button">LOGIN</button><br>
+    <button onclick="location.replace('register.html')" class="button">NEW USER</button><br>
+    <button class="button" onclick="location.replace('newpart.html')">ADD/EDIT Part No</button><br>
+    <button class="button" onclick="location.replace('changepno.html')">CHANGE Part No</button><br>
+    <button class="button">SETUP</button><br>
+</div>
+  <div class="item3" style="padding:50px">
+    <div>Logged In user: Flywheels</div>
+  <table style="width:100%;">
+    <tr>
+      <th colspan="6">Part Number :<span id="partno">989284729382</span></th>
+    </tr>
+    <tr>
+      <th rowspan="2" style="color:green">Good Parts</th>
+      <th colspan="2" style="color:red">Rejection</th>
+      <th rowspan="2">Total Rejection</th>
+      <th rowspan="2">Total Tested</th>
+      <th rowspan="2">Rejection %</th>
+    </tr>
+    <tr>
+      <th style="color:red" colspan="2">Continuity</th>
+    </tr>
+    <tr>
+      <th style="color:green" id="mainpass">pass</td>
+      <th style="color:red" id="confail" colspan="2">confail</th>
+      <th style="color:red" id="mainfail">mainfail</th>
+      <th id="totaltest">total test</th>
+      <th id="rejpercent">%%%</th>
+    </tr>
+  </table></div>  
+  <div class="item4">Test Result
+    <button class="button" onclick="window.pywebview.api.test_part(master_data.PartNo);">TEST</button><br>
+    <h1 style="color:red" id="fail" style="display:none;" >FAIL</h1>
+    <h1 style="color:green" id="pass" style="display:none;">PASS</h1>
+    <h1 style="color:red" id="nohar" style="display:none;" >NO-HARNESS</h1>
+  </div>
+  <div class="item5">Powered By Flywheels Embedded Research Pvt Ltd</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+.item1 { grid-area: header; }
+.item2 { grid-area: menu; }
+.item3 { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main right right'
+    'menu footer footer footer footer footer';
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 15px 0;
+  font-size: 30px;
+}
+table {
+  background-color: rgba(30, 126, 216, 0.8);
+  border: 1px solid rgb(23, 80, 202);
+  padding: 2px;
+}
+th, td{
+  background-color: rgba(255, 255, 255, 0.733);
+}
+.button{
+  background-color: #2196F3;
+  color:aliceblue;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 200;
+  border:0px;
+  width: 100%;
+  border-radius: 10px;
+}
+.button:hover{
+  background-color: #b1c1ce;
+  box-shadow: 0 2px #999;
+}
+.button:active{
+  background-color: #414447;
+}
+
+    </style>
+<script>
+
+
+</script>
+</head>
+<body>
+<div class="grid-container">
+  <div class="item1"><h1>WHTS Automation</h1></div>
+  <div class="item2">
+    <button class="button" onclick="location.replace('main.html')">BACK</button><br>
+</div>
+  <div class="item3" style="padding:50px">
+    Username <input type="text" id="username"><br>
+    Password <input type="password" id="password">
+    </div>  
+  <div class="item4">You need to login before making any changes
+  </div>
+  <div class="item5">Powered By Flywheels Embedded Research Pvt Ltd</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+.item1 { grid-area: header; }
+.item2 { grid-area: menu; }
+.item3 { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main right right'
+    'menu footer footer footer footer footer';
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 15px 0;
+  font-size: 30px;
+}
+table {
+  background-color: rgba(30, 126, 216, 0.8);
+  border: 1px solid rgb(23, 80, 202);
+  padding: 2px;
+}
+th, td{
+  background-color: rgba(255, 255, 255, 0.733);
+}
+.button{
+  background-color: #2196F3;
+  color:aliceblue;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 200;
+  border:0px;
+  width: 100%;
+  border-radius: 10px;
+}
+.button:hover{
+  background-color: #b1c1ce;
+  box-shadow: 0 2px #999;
+}
+.button:active{
+  background-color: #414447;
+}
+
+    </style>
+<script>
+function onloading(){
+    table_pinnames = document.getElementById('pinnames');
+    let s = "";
+    for (let i = 0; i < 128; i++) {
+        
+        s += "<div>Pin"+String(i);
+        s += "Name<input class='inp1' id='pinname "+String(i)+"'>";
+        s += "Netlist<input class='inp1' id='pin "+String(i)+"'>";
+        s += "</div>";
+    }
+    table_pinnames.innerHTML = s;
+}
+function load_master(dbnet,names)
+{
+  da = JSON.parse(names);
+  das = JSON.parse(dbnet);
+  for(let i=0;i<128;i++)
+  {
+    if(da["Pin"+String(i)]  != undefined)
+    {
+      document.getElementById('pinname '+String(i)).value=da["Pin"+String(i)];
+    }
+    if(das["pin "+String(i)]  != undefined)
+    {
+      document.getElementById('pin '+String(i)).value=das["pin "+String(i)];
+    }
+  }
+  
+}
+let learnt_data;
+function netlist_load(data){
+    learn_data = data
+    // clean table data
+    document.getElementById("message").innerText = "";
+    for (let i = 0; i < 128; i++) {
+        document.getElementById('pin '+String(i)).value="";
+    }
+    if (Object.keys(learn_data).length === 0)
+    {
+        document.getElementById("message").innerText = "Wire Harness not connected Please connect and learn again";
+    }else
+    {
+        for (var k in data)
+        {
+            document.getElementById(k).value = data[k];
+        }
+        document.getElementById("status").innerText = "Learn Complete";
+    }     
+
+}
+
+function save_pno()
+{
+  let da = {};
+  for (let i=0;i<128;i++)
+  {
+    if (document.getElementById('pinname '+String(i)).value != "")
+    {
+      da["Pin"+String(i)]=document.getElementById('pinname '+String(i)).value;
+    }
+  }
+  
+  document.getElementById("message").innerText = "";
+  if (document.getElementById("partNO").value == "")
+  {
+    document.getElementById("message").innerText = "Insert a part no to save";
+  }
+  else
+  {
+    document.getElementById("status").text = "saving ... ";
+    window.pywebview.api.save_masterdata(document.getElementById("partNO").value,JSON.stringify(da));
+  }
+}
+setTimeout(onloading, 2000);
+</script>
+</head>
+<body>
+<div class="grid-container">
+  <div class="item1"><h1>WHTS Automation</h1></div>
+  <div class="item2">
+    <button class="button" onclick="location.replace('main.html')">GO BACK</button>
+</div>
+  <div class="item3" style="padding:50px">
+    Part No: <input id="partNO" onchange="window.pywebview.api.load_masterdata(document.getElementById('partNO').value);"><br>
+    <span id="message" style="color:red;"></span>
+    <table id="pinnames">
+
+    </table>
+ 
+    
+</div>  
+  <div class="item4">Status<br>
+    <button class="button" onclick="save_pno();">SAVE NAMES</button><br>
+    <button class="button" onclick="document.getElementById('status').innerText='Learning ...';window.pywebview.api.get_netlist('title')">LEARN NETLIST</button><br>
+      <h3 id="status"></h3>
+  </div>
+  <div class="item5">Powered By Flywheels Embedded Research Pvt Ltd</div>
+</div>
+</body>
+</html>
